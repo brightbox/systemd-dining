@@ -1,0 +1,11 @@
+#!/bin/sh
+set -e
+
+default_thought="the enigmatic nature of reality: the existential grasp
+for an elusive fork, the categorical imperative of simulated existence,
+and the irony in questioning the true essence of the held object."
+{
+    printf '%s' 'Currently contemplating '
+    printf '%s\n' "${default_thought}"
+} | fmt
+exit 0

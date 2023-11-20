@@ -1,0 +1,9 @@
+[Unit]
+Description=Hunger
+PartOf=hungry.target
+Before=eating.target
+
+[Service]
+Type=oneshot
+SyslogFacility=local0
+ExecStart=/usr/local/bin/hunger

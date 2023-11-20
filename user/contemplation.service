@@ -1,0 +1,9 @@
+[Unit]
+Description=Contemplation
+PartOf=thinking.target
+Before=hungry.target
+
+[Service]
+Type=oneshot
+SyslogFacility=local0
+ExecStart=/usr/local/bin/contemplation

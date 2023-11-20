@@ -1,0 +1,4 @@
+[Unit]
+Description=Hungry...
+Conflicts=eating.target thinking.target
+Wants=hungry.timer hunger.service

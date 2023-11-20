@@ -1,0 +1,10 @@
+[Unit]
+Description=Thinking Period
+PartOf=thinking.target
+
+[Timer]
+Unit=hungry.target
+RandomizedDelaySec=60
+OnActiveSec=0
+AccuracySec=1us
+RemainAfterElapse=false

@@ -1,0 +1,10 @@
+[Unit]
+Description=Hungry Period
+PartOf=hungry.target
+
+[Timer]
+Unit=eating.target
+RandomizedDelaySec=5
+OnActiveSec=0
+AccuracySec=1us
+RemainAfterElapse=false

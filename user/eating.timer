@@ -1,0 +1,10 @@
+[Unit]
+Description=Eating Period
+PartOf=eating.target
+
+[Timer]
+Unit=thinking.target
+RandomizedDelaySec=30
+OnActiveSec=0
+AccuracySec=1us
+RemainAfterElapse=false
