@@ -1,0 +1,44 @@
+#!/bin/sh
+set -e
+# Read write by user only
+umask 077
+base=10
+head=$((base + 1))
+diningroom=/home/share/dining-room
+WAIT_FOR_READY_SECS=2
+
+grab_fork() {
+    touch "${HOME}/forks/$1"
+    echo "Acquired fork #$1"
+}
+
+if [ ! -w "${diningroom}/seats" ]
+then
+    echo "Dining room isn't open yet"
+    # Return EX_UNAVAILABLE
+    exit 69
+fi 
+
+echo "The Dining Room is open. Looking for a seat."
+seat=${head}
+until touch "${diningroom}/seats/${seat}" 2>/dev/null
+do
+	seat=$((seat+1))
+done
+echo "I have seat #${seat}"
+
+
+echo "Creating my fork store"
+rm -rf "${HOME}/forks"
+mkdir "${HOME}/forks"
+
+grab_fork $((seat+1))
+if [ "${seat}" -eq "${head}" ]
+then
+    grab_fork ${head}
+fi
+
+echo "Waiting for everybody to take their seats"
+fsnotifywait -q -q -e close_write -t "${WAIT_FOR_READY_SECS}" -m "${diningroom}/seats" || [ "$?" -eq 2 ]
+
+echo "Starting..."

@@ -1,5 +1,6 @@
 [Unit]
 Description=Hungry Period
+ConditionPathIsDirectory=/home/share/dining-room
 PartOf=hungry.target
 
 [Timer]

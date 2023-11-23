@@ -2,6 +2,7 @@
 Description=Contemplation
 PartOf=thinking.target
 Before=hungry.target
+After=eating-food.service
 
 [Service]
 Type=oneshot

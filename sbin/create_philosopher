@@ -1,0 +1,16 @@
+#!/bin/sh
+if [ "$#" -ne 4 ]
+then
+	echo "Usage: ${0##*/} name 'Full Name' 'Comment' project_file" >&2
+	exit 64
+fi
+set -e
+umask 022
+adduser --disabled-password --shell /bin/bash --gecos "$2,,,,$3" "$1" 
+adduser "$1" philosophers
+loginctl enable-linger "$1"
+if [ -e "$4" ]
+then
+    chmod 0751 "/home/$1"
+    install -o "$1" -g "$1" -m 0644 -T "$4" "/home/$1/.project"
+fi

@@ -1,0 +1,8 @@
+[Unit]
+Description=Watch Dining Room
+
+[Path]
+PathModified=/home/share/dining-room
+
+[Install]
+WantedBy=default.target

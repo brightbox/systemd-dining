@@ -1,7 +1,7 @@
 [Unit]
 Description=Eating Food
+ConditionPathIsDirectory=/home/share/dining-room
 PartOf=eating.target
-Before=thinking.target
 
 [Service]
 Type=oneshot

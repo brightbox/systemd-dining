@@ -1,0 +1,3 @@
+#!/bin/sh
+install -Dd -g philosophers -m 755 /home/share/dining-room
+exec install -d -g philosophers -m 1775 /home/share/dining-room/seats

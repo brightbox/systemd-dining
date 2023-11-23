@@ -1,0 +1,13 @@
+[Unit]
+Description=Seat Selection
+ConditionPathIsDirectory=/home/share/dining-room
+Conflicts=hungry.target eating.target
+OnSuccess=thinking.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/select-seat
+SyslogFacility=local0
+
+[Install]
+WantedBy=default.target

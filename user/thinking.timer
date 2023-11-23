@@ -1,6 +1,7 @@
 [Unit]
 Description=Thinking Period
 PartOf=thinking.target
+After=eating-food.service
 
 [Timer]
 Unit=hungry.target
