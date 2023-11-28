@@ -1,0 +1,7 @@
+#!/bin/sh
+set -e
+
+echo "Releasing forks"
+rm -f ${HOME}/forks/*
+echo "Transferring forks"
+neighbours | xargs -r response-fork

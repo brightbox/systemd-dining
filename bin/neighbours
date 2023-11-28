@@ -1,0 +1,46 @@
+#!/bin/sh
+set -e
+diningroom=/home/share/dining-room
+base=10
+
+# count fileglob
+count() {
+    case ${1##*/} in
+        \*)
+            echo 0
+            ;;
+        *)
+            echo $#
+            ;;
+    esac
+}
+
+# validate_username username userid position
+validate_username() {
+    if [ "${1}" = 'UNKNOWN' ]
+    then
+        echo "${3} neighbour ${2} is not ready"
+        exit 75
+    fi
+}
+
+seat=$(my-dining-seat)
+max=$(count ${diningroom}/seats/*)
+max=$((max + base))
+right_index=$((seat + 1))
+if [ "${right_index}" -gt "${max}" ]
+then
+    right_index=$((base + 1))
+fi
+left_index=$((seat - 1))
+if [ "${left_index}" -eq "${base}" ]
+then
+    left_index=${max}
+fi
+
+left_name=$(seat-owner "${left_index}")
+right_name=$(seat-owner "${right_index}")
+validate_username "${left_name}" "${left_index}" "Left"
+validate_username "${right_name}" "${right_index}" "Right"
+echo "${left_name}" "${right_name}"
+exit 0

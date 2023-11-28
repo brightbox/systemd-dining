@@ -1,0 +1,12 @@
+[Unit]
+Description=Fork Check
+ConditionPathIsDirectory=/home/share/dining-room
+CollectMode=inactive-or-failed
+OnSuccess=eating.target
+OnFailure=fork-request.service
+After=hungry.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/fork-check
+SyslogFacility=local0

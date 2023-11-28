@@ -1,0 +1,11 @@
+#!/bin/sh
+if [ "$#" -eq 0 ]
+then
+	echo "Usage: ${0##*/} name..."
+    exit 64
+fi
+for word
+do
+    echo "Asking ${word} for the shared fork"
+	mail -E'unset nullbodymsg' -s 'Fork Request' "${word}" < /dev/null
+done

@@ -1,0 +1,2 @@
+#!/bin/sh
+exec find /home/share/dining-room/seats -type f -user "${1:-$(id -u)}" -printf '%f\n'

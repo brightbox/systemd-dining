@@ -6,4 +6,7 @@ PartOf=eating.target
 [Service]
 Type=oneshot
 SyslogFacility=local0
+RemainAfterExit=yes
 ExecStart=/usr/local/bin/consumption
+# Send forks to neighbours after eating
+ExecStop=/usr/local/bin/fork-release

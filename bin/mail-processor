@@ -1,0 +1,6 @@
+#!/bin/sh
+set -e
+sed -n '/^From: /s/^From: .* <\(.*\)@.*$/\1/p
+/^Subject: /s/^Subject: \(.*\)$/"\1"/p' |
+    xargs -r -n 2 -- /usr/local/bin/mail-tasks |
+    logger -p local0.info -t mail-tasks

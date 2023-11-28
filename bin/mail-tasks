@@ -1,0 +1,21 @@
+#!/bin/sh
+set -e
+
+if [ "$#" -ne 2 ]
+then
+	echo "Usage: ${0##*/} username subject"
+	exit 64
+fi
+
+case "$2" in
+Fork\ Request)
+    exec mail-task-fork-request "$1"
+    ;;
+Fork\ Response)
+    exec mail-task-fork-response "$1"
+    ;;
+*)
+    echo "Unknown mail request ${2} from ${1}"
+    echo "Discarding mail"
+    exit 0
+esac

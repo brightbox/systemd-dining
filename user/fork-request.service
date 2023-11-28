@@ -1,0 +1,9 @@
+[Unit]
+Description=Neighbour Fork Request
+ConditionPathIsDirectory=/home/share/dining-room
+After=hungry.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/fork-request
+SyslogFacility=local0

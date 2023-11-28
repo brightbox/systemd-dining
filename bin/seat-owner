@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+if [ "$#" -eq 0 ]
+then
+	echo "Usage: ${0##*/} seat_no..."
+	exit 64
+fi
+cd /home/share/dining-room/seats
+exec stat --format=%U "$@"

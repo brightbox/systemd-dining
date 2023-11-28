@@ -1,0 +1,50 @@
+#!/bin/sh
+set -e
+
+count() {
+    case ${1##*/} in
+        \*)
+            echo 0
+            ;;
+        *)
+            echo $#
+            ;;
+    esac
+}
+
+# ask_for_fork fork_num
+ask_for_fork() {
+    if [ -w "${1}" ]
+    then
+        echo "I already have fork #${2}"
+    else
+        echo "I don't have fork #${2}"
+        request-fork "${3}"
+    fi
+}
+
+diningroom=/home/share/dining-room
+forkarea=${HOME}/forks
+base=10
+
+seat=$(my-dining-seat)
+max=$(count ${diningroom}/seats/*)
+max=$((max + base))
+right_index=$((seat + 1))
+if [ "${right_index}" -gt "${max}" ]
+then
+    right_index=$((base + 1))
+fi
+left_index=$((seat - 1))
+if [ "${left_index}" -eq "${base}" ]
+then
+    left_index=${max}
+fi
+
+left_name=$(seat-owner "${left_index}")
+right_name=$(seat-owner "${right_index}")
+lfork=${seat}
+rfork=${right_index}
+
+ask_for_fork "${forkarea}/${lfork}" "${lfork}" "${left_name}"
+ask_for_fork "${forkarea}/${rfork}" "${rfork}" "${right_name}"

@@ -1,0 +1,80 @@
+#!/bin/sh
+set -e
+# Read write by user only, no execute
+umask 0177
+diningroom=/home/share/dining-room
+base=10
+
+#SystemD requirements...
+XDG_RUNTIME_DIR=/run/user/$(id -u)
+DBUS_SESSION_BUS_ADDRESS=unix:path=${XDG_RUNTIME_DIR}/bus
+HOME=$(getent passwd "$(id -nu)" | cut -d: -f6)
+export XDG_RUNTIME_DIR DBUS_SESSION_BUS_ADDRESS HOME
+
+# count fileglob
+count() {
+    case ${1##*/} in
+        \*)
+            echo 0
+            ;;
+        *)
+            echo $#
+            ;;
+    esac
+}
+
+try_to_eat() {
+    if fork-check
+    then
+        echo "Time to eat"
+        systemctl --user --quiet start eating.target
+    fi
+}
+
+other=$(my-dining-seat "${1}")
+if [ -z "${other}" ]
+then
+    echo "$2: No seat found for ${1}"
+    echo "Discarding mail"
+    exit 0
+fi
+
+seat=$(my-dining-seat)
+max=$(count ${diningroom}/seats/*)
+max=$((max + base))
+right_index=$((seat + 1))
+if [ "${right_index}" -gt "${max}" ]
+then
+    right_index=$((base + 1))
+fi
+left_index=$((seat - 1))
+if [ "${left_index}" -eq ${base} ]
+then
+    left_index=${max}
+fi
+
+
+grab_fork() {
+    touch "${HOME}/forks/$1"
+    echo "Acquired fork #$1"
+}
+
+echo "Received fork response from $1"
+if [ "${other}" -eq "${left_index}" ]
+then
+    grab_fork "${seat}"
+elif [ "${other}" -eq "${right_index}" ]
+then
+    grab_fork "${right_index}"
+else
+    echo "Fork Response error"
+    echo "Unexpected seat ${other} for $1"
+    echo "I'm seat ${seat}, left is ${left_index}, right is ${right_index}"
+    echo "Discarding mail"
+    exit 0
+fi
+if systemctl --user --quiet is-active hungry.target
+then
+        try_to_eat
+fi
+exit 0
